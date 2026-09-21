@@ -18,17 +18,29 @@ USB.
 - For flashing only: OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example
   `brew install --HEAD open-ocd` or the xPack build).
 
-## Claude Code
+## Claude Code and the Claude app
+
+Install the [Claude Code CLI](https://code.claude.com/docs/en/setup) if you don't have it (the Claude
+app does not add a `claude` command):
+
+```bash
+brew install --cask claude-code
+```
+
+Then add the plugin, with your pod's address and the board's I/O voltage:
 
 ```bash
 claude plugin marketplace add embeddedci-com/benchpod-mcp
 ```
 
 ```bash
-claude plugin install benchpod@benchpod-mcp
+claude plugin install benchpod@benchpod-mcp --config connection=192.168.1.213 --config la_voltage=3.3
 ```
 
-Claude Code asks for the settings below; change them later with `/plugin configure benchpod@benchpod-mcp`.
+It works in terminal sessions and in the Claude app's Code tab, where it appears under **+** →
+**Plugins**. For a cloud pod use `connection=embeddedci:<device>` and add `--config api_key=eci_…`.
+Change a setting later by running the install command again with `--config`, or with
+`/plugin configure benchpod@benchpod-mcp` in a terminal session.
 
 ## Codex
 
@@ -43,10 +55,11 @@ from your shell to the server, so set them before starting Codex:
 export BENCHPOD_CONNECTION=192.168.1.213 BENCHPOD_LA_VOLTAGE=3.3
 ```
 
-## Claude Desktop
+## Claude app chat
 
-Download `benchpod.mcpb` from the [latest release](https://github.com/embeddedci-com/benchpod-mcp/releases/latest)
-and open it. Claude Desktop installs it and asks for the settings below.
+To use the bench from a chat instead of a Code session, download `benchpod.mcpb` from the
+[latest release](https://github.com/embeddedci-com/benchpod-mcp/releases/latest) and open it. The
+app installs the extension and asks for the settings below.
 
 ## Settings
 

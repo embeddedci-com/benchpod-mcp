@@ -1,0 +1,49 @@
+{
+  "name": "benchpod",
+  "version": "1.0.0",
+  "description": "Drive an EmbeddedCI BenchPod hardware-in-the-loop bench: flash firmware, power the board, read its UART, emulate I2C sensors, capture logic and analog signals, and talk CAN.",
+  "author": {
+    "name": "EmbeddedCI",
+    "email": "hello@embeddedci.com",
+    "url": "https://www.embeddedci.com"
+  },
+  "homepage": "https://www.embeddedci.com/docs/benchpod-mcp",
+  "repository": "https://github.com/embeddedci-com/benchpod-mcp",
+  "license": "Apache-2.0",
+  "keywords": ["embedded", "hardware-in-the-loop", "hil", "firmware", "benchpod", "swd", "uart"],
+  "userConfig": {
+    "connection": {
+      "type": "string",
+      "title": "BenchPod connection",
+      "description": "The pod's IP address or host[:port] on your network, or embeddedci:<device-name> for a cloud pod. Leave empty to give it to the agent in chat.",
+      "required": false,
+      "default": ""
+    },
+    "la_voltage": {
+      "type": "string",
+      "title": "Board I/O voltage",
+      "description": "The board's I/O voltage: 3.3 or 1.8. Leave empty and the agent sets it before using the pins.",
+      "required": false,
+      "default": ""
+    },
+    "api_key": {
+      "type": "string",
+      "title": "embeddedci.com API key",
+      "description": "Needed only for cloud pods and the waveform library. Create one at https://www.embeddedci.com/api-keys.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  },
+  "mcpServers": {
+    "benchpod": {
+      "command": "uvx",
+      "args": ["--from", "embeddedci-mcp>=2,<3", "embeddedci-mcp"],
+      "env": {
+        "BENCHPOD_CONNECTION": "${user_config.connection}",
+        "BENCHPOD_LA_VOLTAGE": "${user_config.la_voltage}",
+        "BENCHPOD_API_KEY": "${user_config.api_key}"
+      }
+    }
+  }
+}

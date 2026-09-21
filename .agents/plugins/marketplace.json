@@ -1,0 +1,20 @@
+{
+  "name": "benchpod-mcp",
+  "interface": {
+    "displayName": "EmbeddedCI BenchPod"
+  },
+  "plugins": [
+    {
+      "name": "benchpod",
+      "source": {
+        "source": "local",
+        "path": "./plugins/benchpod"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

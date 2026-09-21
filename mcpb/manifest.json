@@ -1,0 +1,335 @@
+{
+  "manifest_version": "0.4",
+  "name": "benchpod",
+  "display_name": "EmbeddedCI BenchPod",
+  "version": "1.0.0",
+  "description": "Drive a BenchPod hardware-in-the-loop bench: flash, power, UART, I2C sensor emulation, logic and analog capture, CAN.",
+  "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the I2C sensor it expects, capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
+  "author": {
+    "name": "EmbeddedCI",
+    "email": "hello@embeddedci.com",
+    "url": "https://www.embeddedci.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/embeddedci-com/benchpod-mcp"
+  },
+  "homepage": "https://www.embeddedci.com/ai-hil",
+  "documentation": "https://www.embeddedci.com/docs/benchpod-mcp",
+  "support": "https://github.com/embeddedci-com/benchpod-mcp/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "uv",
+    "entry_point": "src/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${__dirname}",
+        "src/server.py"
+      ],
+      "env": {
+        "BENCHPOD_CONNECTION": "${user_config.connection}",
+        "BENCHPOD_LA_VOLTAGE": "${user_config.la_voltage}",
+        "BENCHPOD_API_KEY": "${user_config.api_key}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "connect",
+      "description": "Open a BenchPod connection (closing any previous one and its sessions) and report status."
+    },
+    {
+      "name": "disconnect",
+      "description": "Close UART/CAN sessions and the connection, releasing a cloud lease. Safe when not connected."
+    },
+    {
+      "name": "status",
+      "description": "Connection, firmware, capabilities, selected LA voltage and open sessions \u2014 with warnings for anything that will block the next steps (e.g. no LA voltage). Works when not connected."
+    },
+    {
+      "name": "set_la_voltage",
+      "description": "Select the LA I/O-bank voltage to match the DUT's I/O (1.8 V needs a rev3 pod)."
+    },
+    {
+      "name": "wiring",
+      "description": "Which DUT signal is on which LA channel \u2014 call this first, before any channel argument."
+    },
+    {
+      "name": "set_wiring",
+      "description": "Replace the wiring profile this connection uses (and optionally store it on embeddedci.com)."
+    },
+    {
+      "name": "power_on",
+      "description": "Switch the target's power rail on. The result says which rail was used."
+    },
+    {
+      "name": "power_off",
+      "description": "Switch the target's power rail off. The result says which rail was used."
+    },
+    {
+      "name": "measure_power",
+      "description": "Measure the DUT's supply current and voltage for a window: average, minimum and peak current, voltage, energy and charge (gap-free sampling, so energy is integrated, not estimated)."
+    },
+    {
+      "name": "power_profile_start",
+      "description": "Start sampling the target-power rail in the background, then run the steps you want to profile and call power_profile_stop. Replaces any profile already running."
+    },
+    {
+      "name": "power_profile_stop",
+      "description": "Stop the running power profile and return its statistics (and, with points, a trace)."
+    },
+    {
+      "name": "power_status",
+      "description": "Both target-power rails: eFuse on/off and tripped state, bus voltage and current draw."
+    },
+    {
+      "name": "reset_target",
+      "description": "Drive the DUT's reset line from the pod's reset pin (rev3 pods, DUT header J1 pin 22)."
+    },
+    {
+      "name": "flash",
+      "description": "Program the DUT over SWD through the pod's CMSIS-DAP probe (OpenOCD runs on this server's host)."
+    },
+    {
+      "name": "capture_uart",
+      "description": "Record the DUT's UART output for a fixed window (or until until_regex matches)."
+    },
+    {
+      "name": "power_cycle_and_capture",
+      "description": "Power the target off, then capture UART while it powers back on \u2014 the boot banner lands in the window."
+    },
+    {
+      "name": "uart_open",
+      "description": "Start buffering the DUT's UART in the background (replacing any open session)."
+    },
+    {
+      "name": "uart_write",
+      "description": "Send text to the DUT's RX through the open UART session."
+    },
+    {
+      "name": "uart_read",
+      "description": "Return the UART output received since the previous uart_read, optionally waiting for a match."
+    },
+    {
+      "name": "uart_close",
+      "description": "Stop the background UART session (safe when none is open)."
+    },
+    {
+      "name": "enable_i2c_sensor",
+      "description": "Make the pod act as a BMP280 on sda/scl for the DUT to read. Engage pull-ups on both lines first (set_pull)."
+    },
+    {
+      "name": "set_i2c_sensor",
+      "description": "Change what the emulated sensor reports (at least one value)."
+    },
+    {
+      "name": "disable_i2c_sensor",
+      "description": "Disarm the emulated sensor (safe when none is active)."
+    },
+    {
+      "name": "i2c_sensor_status",
+      "description": "Emulated sensor state plus bus activity counters \u2014 did the DUT talk to it at all?"
+    },
+    {
+      "name": "i2c_sensor_regs",
+      "description": "Read the emulated sensor's register image."
+    },
+    {
+      "name": "i2c_sensor_capture",
+      "description": "Capture and decode the emulated sensor's I2C bus into a transaction trace (S/Sr/P, addr, data, ACK)."
+    },
+    {
+      "name": "set_pull",
+      "description": "Engage or release the fixed bias resistors: LA1-LA6 pull UP (I2C lines), LA7/LA8 pull DOWN."
+    },
+    {
+      "name": "pull_status",
+      "description": "State, direction and value of the bias resistor on LA1-LA8."
+    },
+    {
+      "name": "la_pins",
+      "description": "What owns each of the 12 LA channels \u2014 none (free), gpio, uart_rx/uart_tx, swd_clk/swd_dio, i2c_sda/i2c_scl or step \u2014 plus each channel's GPIO mode, commanded level and bias resistor."
+    },
+    {
+      "name": "gpio_mode",
+      "description": "Claim LA channels as GPIO so the pod can drive or read them."
+    },
+    {
+      "name": "gpio_write",
+      "description": "Set the level of GPIO output / open-drain channels (all of them in one pod command)."
+    },
+    {
+      "name": "gpio_read",
+      "description": "The live level (0/1) of LA channels \u2014 omit `la` for all 12."
+    },
+    {
+      "name": "gpio_wait",
+      "description": "Wait until an LA channel reads `level` (reached=false when the timeout passes first)."
+    },
+    {
+      "name": "gpio_pulse",
+      "description": "Emit FPGA-timed pulses on an LA channel \u2014 a trigger for the DUT, or a step/dir motor train."
+    },
+    {
+      "name": "gpio_release",
+      "description": "Stop using channels as GPIO \u2014 they go back to high-Z, watched by captures."
+    },
+    {
+      "name": "analog_path",
+      "description": "Set every analog mux and relay for a named path in one step."
+    },
+    {
+      "name": "dac_output",
+      "description": "Route a DAC output (3v3, 5v, 12v = \u00b112 V, or off) and drive a calibrated DC voltage on it."
+    },
+    {
+      "name": "adc_read",
+      "description": "One calibrated voltage: ext = front SMA (true volts), cal1/cal2 = DAC loopbacks, amp = current terminal."
+    },
+    {
+      "name": "capture_adc",
+      "description": "Capture the ADC and summarise it: calibrated stats, dominant frequency and a min/max envelope."
+    },
+    {
+      "name": "capture_la",
+      "description": "Capture all 12 LA channels and summarise each: levels, edge count, first edge, estimated frequency."
+    },
+    {
+      "name": "capture_correlated",
+      "description": "ADC and LA captured from one hardware trigger, so their timebases align. Both are kept."
+    },
+    {
+      "name": "decode_la",
+      "description": "Decode I2C (sda, scl), UART (rx, baud) or SPI (sclk + mosi/miso/cs, mode) from LA data."
+    },
+    {
+      "name": "la_timing",
+      "description": "Timing of one channel of the last capture_la / capture_correlated: edge timestamps, pulse widths, frequency and duty cycle; with to_la, the delay from its first edge to the next edge on to_la (e.g. a trigger pin to a \"result ready\" pin). Resolution is one sample; no new capture is taken."
+    },
+    {
+      "name": "generate",
+      "description": "Drive a sine, square or sawtooth on a DAC output (built from 8-bit levels)."
+    },
+    {
+      "name": "dac_stop",
+      "description": "Stop any DAC output: generator, replay or control loop."
+    },
+    {
+      "name": "replay",
+      "description": "Loop a waveform out of the DAC until dac_stop \u2014 agent-provided volts or the last ADC capture."
+    },
+    {
+      "name": "list_waveforms",
+      "description": "The organisation's cloud waveform library (needs a cloud connection or BENCHPOD_API_KEY)."
+    },
+    {
+      "name": "replay_waveform",
+      "description": "Loop a cloud-library waveform out of the DAC until dac_stop (needs server access)."
+    },
+    {
+      "name": "save_capture_as_recording",
+      "description": "Save the last capture_adc to the cloud waveform library as a replayable recording."
+    },
+    {
+      "name": "control_loop",
+      "description": "Run a tabulated transfer function in the FPGA: each tick out = curve[input], damped and clamped."
+    },
+    {
+      "name": "loop_input",
+      "description": "Re-target the running loop's input without re-arming (hold a point, meter, move on)."
+    },
+    {
+      "name": "loop_probe",
+      "description": "The running loop's live operating point; assert against loop_input, not i, in open-loop runs."
+    },
+    {
+      "name": "fpga_image",
+      "description": "Reprogram the pod's FPGA with another stored gateware image (~2-3 s)."
+    },
+    {
+      "name": "can_open",
+      "description": "Bring up the pod's CAN interface (replacing any open CAN session)."
+    },
+    {
+      "name": "can_write",
+      "description": "Queue one classic CAN frame."
+    },
+    {
+      "name": "can_read",
+      "description": "Read received CAN frames (id, data, timestamps in pod milliseconds)."
+    },
+    {
+      "name": "can_respond",
+      "description": "Make the pod firmware answer a CAN id instantly (ECU simulation), or clear all rules."
+    },
+    {
+      "name": "can_status",
+      "description": "CAN link state: mode, bitrate, error counters, bus-off."
+    },
+    {
+      "name": "can_close",
+      "description": "Clear responder rules and stop CAN (safe when not open)."
+    },
+    {
+      "name": "la_step",
+      "description": "Emit step pulses on an LA channel (step/dir motor drivers); with dir_la, set direction first."
+    },
+    {
+      "name": "command",
+      "description": "Escape hatch for firmware commands no tool covers. Prefer the dedicated tools."
+    }
+  ],
+  "tools_generated": false,
+  "keywords": [
+    "embedded",
+    "hardware-in-the-loop",
+    "hil",
+    "firmware",
+    "benchpod",
+    "swd",
+    "uart",
+    "i2c",
+    "can"
+  ],
+  "license": "Apache-2.0",
+  "privacy_policies": [
+    "https://www.embeddedci.com/privacy"
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  },
+  "user_config": {
+    "connection": {
+      "type": "string",
+      "title": "BenchPod connection",
+      "description": "The pod's IP address or host[:port] on your network, or embeddedci:<device-name> for a cloud pod. Leave empty to give it to Claude in chat.",
+      "required": false,
+      "default": ""
+    },
+    "la_voltage": {
+      "type": "string",
+      "title": "Board I/O voltage",
+      "description": "The board's I/O voltage: 3.3 or 1.8. Leave empty and Claude sets it before using the pins.",
+      "required": false,
+      "default": ""
+    },
+    "api_key": {
+      "type": "string",
+      "title": "embeddedci.com API key",
+      "description": "Needed only for cloud pods and the waveform library. Create one at https://www.embeddedci.com/api-keys.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}

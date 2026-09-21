@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate the Claude Code marketplace and plugin
+        run: |
+          npx -y @anthropic-ai/claude-code plugin validate --strict .
+          npx -y @anthropic-ai/claude-code plugin validate --strict plugins/benchpod
+      - name: Check the Codex manifest
+        run: python3 scripts/check_codex_plugin.py plugins/benchpod
+      - name: Keep versions in step
+        run: python3 scripts/check_versions.py
+      - name: Validate and pack the Claude Desktop extension
+        working-directory: mcpb
+        run: |
+          npx -y @anthropic-ai/mcpb@2 validate manifest.json
+          npx -y @anthropic-ai/mcpb@2 pack . ../benchpod.mcpb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchpod.mcpb
+          path: benchpod.mcpb

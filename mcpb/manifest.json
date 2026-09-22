@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "benchpod",
   "display_name": "EmbeddedCI BenchPod",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Drive a BenchPod hardware-in-the-loop bench: flash, power, UART, I2C sensor emulation, logic and analog capture, CAN.",
   "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the I2C sensor it expects, capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
   "author": {

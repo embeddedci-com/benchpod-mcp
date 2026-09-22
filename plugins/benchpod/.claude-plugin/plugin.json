@@ -1,6 +1,6 @@
 {
   "name": "benchpod",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Drive an EmbeddedCI BenchPod hardware-in-the-loop bench: flash firmware, power the board, read its UART, emulate I2C sensors, capture logic and analog signals, and talk CAN.",
   "author": {
     "name": "EmbeddedCI",
@@ -38,7 +38,7 @@
   "mcpServers": {
     "benchpod": {
       "command": "uvx",
-      "args": ["--from", "embeddedci-mcp>=2,<3", "embeddedci-mcp"],
+      "args": ["--from", "embeddedci-mcp>=2.1,<3", "embeddedci-mcp"],
       "env": {
         "BENCHPOD_CONNECTION": "${user_config.connection}",
         "BENCHPOD_LA_VOLTAGE": "${user_config.la_voltage}",

@@ -4,7 +4,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "embeddedci-mcp>=2,<3",
+        "embeddedci-mcp>=2.1,<3",
         "embeddedci-mcp"
       ],
       "env_vars": [

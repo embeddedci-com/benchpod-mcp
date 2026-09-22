@@ -1,7 +1,7 @@
 [project]
 name = "benchpod-mcpb"
-version = "1.0.0"
+version = "1.0.1"
 description = "Claude Desktop extension for the EmbeddedCI BenchPod MCP server"
 requires-python = ">=3.10"
 # The server itself is the embeddedci-mcp package on PyPI; this bundle only launches it.
-dependencies = ["embeddedci-mcp>=2,<3"]
+dependencies = ["embeddedci-mcp>=2.1,<3"]

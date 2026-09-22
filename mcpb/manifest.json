@@ -151,7 +151,7 @@
     },
     {
       "name": "la_pins",
-      "description": "What owns each of the 12 LA channels \u2014 none (free), gpio, uart_rx/uart_tx, swd_clk/swd_dio, i2c_sda/i2c_scl or step \u2014 plus each channel's GPIO mode, commanded level and bias resistor."
+      "description": "What owns each of the 14 LA channels \u2014 none (free), gpio, uart_rx/uart_tx, swd_clk/swd_dio, i2c_sda/i2c_scl or step \u2014 plus each channel's GPIO mode, commanded level and bias resistor."
     },
     {
       "name": "gpio_mode",
@@ -163,7 +163,7 @@
     },
     {
       "name": "gpio_read",
-      "description": "The live level (0/1) of LA channels \u2014 omit `la` for all 12."
+      "description": "The live level (0/1) of LA channels \u2014 omit `la` for all 14."
     },
     {
       "name": "gpio_wait",
@@ -195,7 +195,7 @@
     },
     {
       "name": "capture_la",
-      "description": "Capture all 12 LA channels and summarise each: levels, edge count, first edge, estimated frequency."
+      "description": "Capture all 14 LA channels and summarise each: levels, edge count, first edge, estimated frequency."
     },
     {
       "name": "capture_correlated",

@@ -22,6 +22,9 @@ if exist "%UV_DIR%\uvx.exe" goto run
 set "TMP_DIR=%UV_DIR%.tmp.%RANDOM%"
 if exist "%TMP_DIR%" rmdir /s /q "%TMP_DIR%"
 mkdir "%TMP_DIR%" || exit /b 1
+rem Started from PowerShell 7, PSModulePath points at its modules, which Windows PowerShell cannot
+rem load (the installer then fails on Get-ExecutionPolicy). Unset, it rebuilds its own default.
+set "PSModulePath="
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$env:UV_UNMANAGED_INSTALL = $env:TMP_DIR; irm https://astral.sh/uv/install.ps1 | iex" 1>&2
 if not exist "%TMP_DIR%\uvx.exe" goto failed
 rem Another session may have finished first; either copy works.

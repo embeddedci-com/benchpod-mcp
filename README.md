@@ -12,8 +12,9 @@ USB.
 
 ## Requirements
 
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) on your `PATH` (the plugins start the
-  server with `uvx`; the Claude Desktop extension brings its own).
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) on your `PATH` for the Codex plugin.
+  The Claude Code plugin uses yours if you have it and otherwise installs a private copy on first
+  start; the Claude Desktop extension brings its own.
 - A BenchPod on your network, over USB, or in the embeddedci.com cloud.
 - For flashing only: OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example
   `brew install --HEAD open-ocd` or the xPack build).

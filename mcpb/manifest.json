@@ -2,9 +2,9 @@
   "manifest_version": "0.4",
   "name": "benchpod",
   "display_name": "EmbeddedCI BenchPod",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Drive a BenchPod hardware-in-the-loop bench: flash, power, UART, I2C sensor emulation, logic and analog capture, CAN.",
-  "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the I2C sensor it expects, capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
+  "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the I2C sensor it expects, capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key, or a `benchpod login` on this computer.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
   "author": {
     "name": "EmbeddedCI",
     "email": "hello@embeddedci.com",
@@ -48,6 +48,10 @@
     {
       "name": "status",
       "description": "Connection, firmware, capabilities, selected LA voltage and open sessions \u2014 with warnings for anything that will block the next steps (e.g. no LA voltage). Works when not connected."
+    },
+    {
+      "name": "cloud_list_devices",
+      "description": "The BenchPods registered to your embeddedci.com organisation, and whether each is online. Needs no pod connection."
     },
     {
       "name": "set_la_voltage",
@@ -223,7 +227,7 @@
     },
     {
       "name": "list_waveforms",
-      "description": "The organisation's cloud waveform library (needs a cloud connection or BENCHPOD_API_KEY)."
+      "description": "The organisation's cloud waveform library (needs a cloud connection, BENCHPOD_API_KEY or `benchpod login`)."
     },
     {
       "name": "replay_waveform",
@@ -326,7 +330,7 @@
     "api_key": {
       "type": "string",
       "title": "embeddedci.com API key",
-      "description": "Needed only for cloud pods and the waveform library. Create one at https://www.embeddedci.com/api-keys.",
+      "description": "For cloud pods and the waveform library, unless you have run `benchpod login` on this computer (its session is used instead). Create one at https://www.embeddedci.com/api-keys.",
       "required": false,
       "sensitive": true,
       "default": ""

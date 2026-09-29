@@ -14,7 +14,7 @@ USB.
 
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) on your `PATH` for the Codex plugin.
   The Claude Code plugin uses yours if you have it and otherwise installs a private copy on first
-  start; the Claude Desktop extension brings its own.
+  start (macOS, Linux and Windows); the Claude Desktop extension brings its own.
 - A BenchPod on your network, over USB, or in the embeddedci.com cloud.
 - For flashing only: OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example
   `brew install --HEAD open-ocd` or the xPack build).
@@ -39,7 +39,9 @@ claude plugin install benchpod@benchpod-mcp --config connection=192.168.1.213 --
 ```
 
 It works in terminal sessions and in the Claude app's Code tab, where it appears under **+** →
-**Plugins**. For a cloud pod use `connection=embeddedci:<device>` and add `--config api_key=eci_…`.
+**Plugins**. For a cloud pod use `connection=embeddedci:<device>`, and either run `benchpod login` once on
+this computer or add `--config api_key=eci_…`. The agent can list your cloud pods with
+`cloud_list_devices`.
 Change a setting later by running the install command again with `--config`, or with
 `/plugin configure benchpod@benchpod-mcp` in a terminal session.
 
@@ -68,7 +70,7 @@ app installs the extension and asks for the settings below.
 | --- | --- | --- |
 | BenchPod connection | `BENCHPOD_CONNECTION` | The pod's IP address or `host[:port]`, `usb`, or `embeddedci:<device>` for a cloud pod. Leave it empty to tell the agent in chat. |
 | Board I/O voltage | `BENCHPOD_LA_VOLTAGE` | `3.3` or `1.8`. Leave it empty and the agent sets it before using the pins. |
-| API key | `BENCHPOD_API_KEY` | Only for cloud pods and the waveform library. Create one at [embeddedci.com/api-keys](https://www.embeddedci.com/api-keys). |
+| API key | `BENCHPOD_API_KEY` | For cloud pods and the waveform library. Optional if you have run [`benchpod login`](https://github.com/embeddedci-com/benchpod-cli) on this computer: its session (`~/.config/benchpod-cli/token.json`) is used instead. Create a key at [embeddedci.com/api-keys](https://www.embeddedci.com/api-keys). |
 
 ## Try it
 
@@ -85,7 +87,8 @@ before running them. The [MCP server docs](https://www.embeddedci.com/docs/bench
 
 The MCP server runs on your computer and talks directly to your BenchPod. It has no telemetry and no
 usage analytics. It sends data to embeddedci.com only when you use a cloud pod, the waveform library or
-a saved wiring profile; those requests carry your API key and the commands and data of that request.
+a saved wiring profile; those requests carry your API key (or your `benchpod login` session) and the commands and data of that
+request.
 Your AI client sees the tool calls it makes and their results, under its own privacy policy.
 
 Full policy: [embeddedci.com/privacy](https://www.embeddedci.com/privacy). Terms:
@@ -100,7 +103,7 @@ Open an [issue](https://github.com/embeddedci-com/benchpod-mcp/issues) or email
 
 | Path | |
 | --- | --- |
-| `plugins/benchpod/` | The plugin: `.claude-plugin/plugin.json` (Claude Code), `.codex-plugin/plugin.json` + `codex.mcp.json` (Codex) |
+| `plugins/benchpod/` | The plugin: `.claude-plugin/plugin.json` (Claude Code), `.codex-plugin/plugin.json` + `codex.mcp.json` (Codex), `bin/benchpod-mcp` and `bin/benchpod-mcp.cmd` (the Claude Code launcher for macOS/Linux and Windows) |
 | `.claude-plugin/marketplace.json` | Claude Code marketplace |
 | `.agents/plugins/marketplace.json` | Codex marketplace |
 | `mcpb/` | Claude Desktop extension, built into `benchpod.mcpb` by the release workflow |

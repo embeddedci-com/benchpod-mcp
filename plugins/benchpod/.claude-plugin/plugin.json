@@ -1,6 +1,6 @@
 {
   "name": "benchpod",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Drive an EmbeddedCI BenchPod hardware-in-the-loop bench: flash firmware, power the board, read its UART, emulate I2C sensors, capture logic and analog signals, and talk CAN.",
   "author": {
     "name": "EmbeddedCI",
@@ -29,7 +29,7 @@
     "api_key": {
       "type": "string",
       "title": "embeddedci.com API key",
-      "description": "Needed only for cloud pods and the waveform library. Create one at https://www.embeddedci.com/api-keys.",
+      "description": "For cloud pods and the waveform library, unless you have run `benchpod login` on this computer (its session is used instead). Create one at https://www.embeddedci.com/api-keys.",
       "required": false,
       "sensitive": true,
       "default": ""

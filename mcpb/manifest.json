@@ -191,7 +191,15 @@
     },
     {
       "name": "adc_read",
-      "description": "One calibrated voltage: ext = front SMA (true volts), cal1/cal2 = DAC loopbacks, amp = current terminal."
+      "description": "One calibrated voltage: ext = front SMA (true volts), cal1/cal2 = DAC loopbacks, current_in = 4-20 mA input (J8)."
+    },
+    {
+      "name": "calibration",
+      "description": "The calibration the pod has stored for its 4-20 mA input (current_in, terminal J8), and the fit it uses."
+    },
+    {
+      "name": "calibrate",
+      "description": "Calibrate the pod's 4-20 mA input (current_in, terminal J8) and store the result on the pod."
     },
     {
       "name": "capture_adc",

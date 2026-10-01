@@ -190,6 +190,10 @@
       "description": "Route a DAC output (3v3, 5v, 12v = \u00b112 V, or off) and drive a calibrated DC voltage on it."
     },
     {
+      "name": "current_out",
+      "description": "Hold a current on the 4-20 mA output (terminal J9), in amps, or read the range it can do."
+    },
+    {
       "name": "adc_read",
       "description": "One calibrated voltage: ext = front SMA (true volts), cal1/cal2 = DAC loopbacks, current_in = 4-20 mA input (J8)."
     },

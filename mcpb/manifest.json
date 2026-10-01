@@ -191,7 +191,7 @@
     },
     {
       "name": "current_out",
-      "description": "Hold a current on the 4-20 mA output (terminal J9), in amps, or read the range it can do."
+      "description": "Hold a current on the 4-20 mA output (terminal J9, needs an external floating loop supply), in amps, or read the range it can do."
     },
     {
       "name": "adc_read",

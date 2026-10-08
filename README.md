@@ -107,6 +107,13 @@ Open an [issue](https://github.com/embeddedci-com/benchpod-mcp/issues) or email
 | `.claude-plugin/marketplace.json` | Claude Code marketplace |
 | `.agents/plugins/marketplace.json` | Codex marketplace |
 | `mcpb/` | Claude Desktop extension, built into `benchpod.mcpb` by the release workflow |
+| `scripts/gen_tools.py` | Writes the extension's tool list (`mcpb/manifest.json`) from the MCP server itself; CI fails when it is out of date |
+
+After an embeddedci-mcp release that adds, removes or rewords a tool, regenerate the list:
+
+```sh
+uv run --no-project --with "$(python3 scripts/gen_tools.py --spec)" python scripts/gen_tools.py
+```
 
 ## License
 

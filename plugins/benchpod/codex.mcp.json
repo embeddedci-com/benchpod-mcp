@@ -4,7 +4,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "embeddedci-mcp>=2.4,<3",
+        "embeddedci-mcp>=2.6,<3",
         "embeddedci-mcp"
       ],
       "env_vars": [
@@ -14,7 +14,7 @@
         "BENCHPOD_API_BASE"
       ],
       "startup_timeout_sec": 120,
-      "tool_timeout_sec": 900
+      "tool_timeout_sec": 3720
     }
   }
 }

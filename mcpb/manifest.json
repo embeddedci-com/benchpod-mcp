@@ -50,10 +50,6 @@
       "description": "Connection, firmware, capabilities, selected LA voltage and open sessions \u2014 with warnings for anything that will block the next steps (e.g. no LA voltage). Works when not connected."
     },
     {
-      "name": "cloud_list_devices",
-      "description": "The BenchPods registered to your embeddedci.com organisation, and whether each is online. Needs no pod connection."
-    },
-    {
       "name": "set_la_voltage",
       "description": "Select the LA I/O-bank voltage to match the DUT's I/O (1.8 V needs a rev3 pod)."
     },
@@ -92,6 +88,22 @@
     {
       "name": "reset_target",
       "description": "Drive the DUT's reset line from the pod's reset pin (rev3 pods, DUT header J1 pin 22)."
+    },
+    {
+      "name": "spi_flash_info",
+      "description": "Read the JEDEC ID of the SPI NOR flash on the SPI pins (gateware v45+, capability spi_master)."
+    },
+    {
+      "name": "spi_flash_program",
+      "description": "Erase, write and verify an image into the SPI NOR flash wired to the SPI pins."
+    },
+    {
+      "name": "spi_flash_read",
+      "description": "Read bytes back from the SPI NOR flash, to a file or (up to 4096 bytes) as hex."
+    },
+    {
+      "name": "spi_transfer",
+      "description": "One full-duplex SPI transaction (CS asserted for all of tx) with any SPI device on the SPI pins."
     },
     {
       "name": "flash",
@@ -240,6 +252,10 @@
     {
       "name": "list_waveforms",
       "description": "The organisation's cloud waveform library (needs a cloud connection, BENCHPOD_API_KEY or `benchpod login`)."
+    },
+    {
+      "name": "cloud_list_devices",
+      "description": "The BenchPods registered to your embeddedci.com organisation, and whether each is online. Needs no pod connection."
     },
     {
       "name": "replay_waveform",

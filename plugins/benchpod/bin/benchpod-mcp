@@ -2,7 +2,7 @@
 # Starts the BenchPod MCP server with uvx. Without uv on PATH it installs a private copy into the
 # plugin's data folder first (no sudo, shell profile untouched); uv then fetches its own Python.
 # stdout is the MCP stream: everything else goes to stderr.
-SPEC='embeddedci-mcp>=2.4,<3'
+SPEC='embeddedci-mcp>=2.6,<3'
 
 if command -v uvx >/dev/null 2>&1; then
   exec uvx --from "$SPEC" embeddedci-mcp

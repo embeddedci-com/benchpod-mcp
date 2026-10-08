@@ -1,0 +1,12 @@
+# Weekly updates for the workflow actions. The embeddedci-mcp pin is left out on purpose: it lives
+# in five files that CI keeps in step (scripts/check_versions.py), so it moves by hand with a
+# plugin release. Security updates arrive on their own.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

@@ -58,6 +58,9 @@ from your shell to the server, so set them before starting Codex:
 export BENCHPOD_CONNECTION=192.168.1.213 BENCHPOD_LA_VOLTAGE=3.3
 ```
 
+`BENCHPOD_API_KEY` (cloud pods) and `BENCHPOD_API_BASE` (another embeddedci server) are passed
+through the same way.
+
 ## Claude app chat
 
 To use the bench from a chat instead of a Code session, download `benchpod.mcpb` from the
@@ -81,7 +84,37 @@ app installs the extension and asks for the settings below.
 > Pretend to be a BMP280 at 25 °C and check the firmware reads it.
 
 Tools that switch power, flash firmware or drive voltages are marked destructive, so your client asks
-before running them. The [MCP server docs](https://www.embeddedci.com/docs/benchpod-mcp) list every tool.
+before running them.
+
+## Tools
+
+The plugin ships every tool of the MCP server. The [MCP server docs](https://www.embeddedci.com/docs/benchpod-mcp)
+describe each one with its parameters and defaults.
+
+| Group | Tools |
+| --- | --- |
+| Connection | `connect`, `disconnect`, `status`, `set_la_voltage` |
+| Cloud (embeddedci.com) | `cloud_list_devices` |
+| Wiring profile | `wiring`, `set_wiring` |
+| Power | `power_on`, `power_off`, `power_status`, `reset_target` |
+| Power profiles | `measure_power`, `power_profile_start`, `power_profile_stop` |
+| Flash | `flash` |
+| SPI flash and SPI devices | `spi_flash_info`, `spi_flash_program`, `spi_flash_read`, `spi_transfer` |
+| UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |
+| Emulated I2C sensor | `enable_i2c_sensor`, `set_i2c_sensor`, `disable_i2c_sensor`, `i2c_sensor_status`, `i2c_sensor_regs`, `i2c_sensor_capture` |
+| Pull resistors | `set_pull`, `pull_status` |
+| GPIO on the LA pins | `la_pins`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
+| Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `calibration`, `calibrate` |
+| Capture and decode | `capture_adc`, `capture_la`, `capture_correlated`, `decode_la`, `la_timing` |
+| DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `replay_waveform`, `save_capture_as_recording` |
+| Control loop | `control_loop`, `loop_input`, `loop_probe`, `fpga_image` |
+| CAN | `can_open`, `can_write`, `can_read`, `can_respond`, `can_status`, `can_close` |
+| Other | `la_step`, `command` |
+
+If the pod or embeddedci.com refuses a command, the tool error names why (for example
+`PodLockedError`, `PodLeasedError`, `PodBusyError`, `PermissionDeniedError` or `TransportTimeout`)
+and adds a one-line hint, so the agent can tell you what to change. `status` lists the pod's
+capabilities, so the agent knows which tools that pod supports.
 
 ## Privacy Policy
 
@@ -108,12 +141,15 @@ Open an [issue](https://github.com/embeddedci-com/benchpod-mcp/issues) or email
 | `.agents/plugins/marketplace.json` | Codex marketplace |
 | `mcpb/` | Claude Desktop extension, built into `benchpod.mcpb` by the release workflow |
 | `scripts/gen_tools.py` | Writes the extension's tool list (`mcpb/manifest.json`) from the MCP server itself; CI fails when it is out of date |
+| `scripts/check_readme_tools.py` | Checks that the Tools table in this README lists exactly the tools in `mcpb/manifest.json` |
 
 After an embeddedci-mcp release that adds, removes or rewords a tool, regenerate the list:
 
 ```sh
 uv run --no-project --with "$(python3 scripts/gen_tools.py --spec)" python scripts/gen_tools.py
 ```
+
+Then add any new tool to the Tools table above; `python3 scripts/check_readme_tools.py` says which.
 
 ## License
 

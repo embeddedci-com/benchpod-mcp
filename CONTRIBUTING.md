@@ -15,6 +15,7 @@ open tool and behavior changes there.
   ```bash
   python3 scripts/check_versions.py
   python3 scripts/check_codex_plugin.py
+  python3 scripts/check_readme_tools.py
   ```
 
 - Install the plugin from your branch in Claude Code or Codex and try a tool against a BenchPod

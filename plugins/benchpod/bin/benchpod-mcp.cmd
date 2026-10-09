@@ -5,7 +5,7 @@ rem with uvx. Without uv on PATH it installs a private copy into the plugin's da
 rem (no admin rights, PATH untouched); uv then fetches its own Python.
 rem stdout is the MCP stream: everything else goes to stderr.
 setlocal
-set "SPEC=embeddedci-mcp>=2.7,<3"
+set "SPEC=embeddedci-mcp>=2.8,<3"
 
 where uvx >nul 2>nul
 if errorlevel 1 goto private

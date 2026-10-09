@@ -101,7 +101,8 @@ describe each one with its parameters and defaults.
 | Flash | `flash` |
 | SPI flash and SPI devices | `spi_flash_info`, `spi_flash_program`, `spi_flash_read`, `spi_transfer` |
 | UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |
-| Emulated I2C sensor | `enable_i2c_sensor`, `set_i2c_sensor`, `disable_i2c_sensor`, `i2c_sensor_status`, `i2c_sensor_regs`, `i2c_sensor_capture` |
+| Emulated I2C sensor (BMP280, BME280, SHT4x, MPU-6050) | `enable_i2c_sensor`, `set_i2c_sensor`, `disable_i2c_sensor`, `i2c_sensor_status`, `i2c_sensor_types`, `i2c_sensor_regs`, `i2c_sensor_capture` |
+| Emulated GPS receiver | `enable_gps`, `set_gps`, `disable_gps`, `gps_status` |
 | Pull resistors | `set_pull`, `pull_status` |
 | GPIO on the LA pins | `la_pins`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
 | Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `calibration`, `calibrate` |

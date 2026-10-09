@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "benchpod",
   "display_name": "EmbeddedCI BenchPod",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Drive a BenchPod hardware-in-the-loop bench: flash, power, UART, I2C sensor emulation, logic and analog capture, CAN.",
   "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the I2C sensor it expects, capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key, or a `benchpod login` on this computer.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
   "author": {
@@ -135,11 +135,15 @@
     },
     {
       "name": "enable_i2c_sensor",
-      "description": "Make the pod act as a BMP280 on sda/scl for the DUT to read. Engage pull-ups on both lines first (set_pull)."
+      "description": "Make the pod act as an I2C sensor on sda/scl for the DUT to read. Engage pull-ups on both lines first (set_pull)."
     },
     {
       "name": "set_i2c_sensor",
-      "description": "Change what the emulated sensor reports (at least one value)."
+      "description": "Change what the emulated sensor reports (at least one value); the reply lists every reading."
+    },
+    {
+      "name": "i2c_sensor_types",
+      "description": "The sensor models the pod can emulate, with their addresses and settable readings (key, unit, range, default)."
     },
     {
       "name": "disable_i2c_sensor",
@@ -156,6 +160,22 @@
     {
       "name": "i2c_sensor_capture",
       "description": "Capture and decode the emulated sensor's I2C bus into a transaction trace (S/Sr/P, addr, data, ACK)."
+    },
+    {
+      "name": "enable_gps",
+      "description": "Make the pod play a GPS module: NMEA sentences (u-blox style, 9600 baud, 1 Hz by default) on tx for the DUT's UART."
+    },
+    {
+      "name": "set_gps",
+      "description": "Change the fix the emulated GPS prints (any subset); the next sentences carry it."
+    },
+    {
+      "name": "disable_gps",
+      "description": "Stop the GPS receiver and release its pin (safe when none runs)."
+    },
+    {
+      "name": "gps_status",
+      "description": "The GPS receiver's session (tx, baud, rate, epochs, overruns) and the fix it prints."
     },
     {
       "name": "set_pull",

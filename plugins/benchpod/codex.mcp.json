@@ -1,12 +1,8 @@
 {
   "mcpServers": {
     "benchpod": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "embeddedci-mcp>=2.9,<3",
-        "embeddedci-mcp"
-      ],
+      "command": "./bin/benchpod-mcp",
+      "cwd": ".",
       "env_vars": [
         "BENCHPOD_CONNECTION",
         "BENCHPOD_LA_VOLTAGE",

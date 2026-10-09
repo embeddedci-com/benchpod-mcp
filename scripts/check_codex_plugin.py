@@ -2,7 +2,9 @@
 
 A trimmed copy of the plugin-creator validator in openai/codex: required fields, https URLs,
 asset files that exist, at most 3 starter prompts of 128 characters, and an mcpServers path
-(the Codex releases we tested reject an inline object).
+(the Codex releases we tested reject an inline object). A relative stdio command must be a file
+in the plugin: Codex resolves a relative `cwd` against the plugin root and starts the command
+from there (on Windows it adds a PATHEXT extension, so bin/x finds bin/x.cmd).
 """
 import json
 import re
@@ -29,7 +31,14 @@ if not isinstance(servers, str) or not servers.startswith("./"):
 elif not (plugin / servers).is_file():
     errors.append(f"mcpServers file {servers} does not exist")
 else:
-    json.loads((plugin / servers).read_text())["mcpServers"]
+    for name, server in json.loads((plugin / servers).read_text())["mcpServers"].items():
+        command = server.get("command", "")
+        if command.startswith("./"):
+            cwd = (plugin / server.get("cwd", "")).resolve()
+            if server.get("cwd") is None or not cwd.is_relative_to(plugin.resolve()):
+                errors.append(f"{name}: a ./ command needs a cwd inside the plugin, like \".\"")
+            elif not (cwd / command).is_file():
+                errors.append(f"{name}: command {command} does not exist")
 
 ui = manifest.get("interface", {})
 for field in ("displayName", "shortDescription", "developerName", "category"):

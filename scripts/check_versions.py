@@ -16,13 +16,12 @@ bad = {path: v for path, v in versions.items() if v != expected}
 for path, v in bad.items():
     print(f"{path}: version {v}, expected {expected}")
 
-# Every launcher installs the same embeddedci-mcp requirement as the Desktop bundle.
+# Both launchers install the same embeddedci-mcp requirement as the Desktop bundle (Claude Code
+# and Codex both start bin/benchpod-mcp).
 spec = re.search(r'"(embeddedci-mcp[^"]*)"', (root / "mcpb/pyproject.toml").read_text()).group(1)
-codex = json.loads((root / "plugins/benchpod/codex.mcp.json").read_text())["mcpServers"]["benchpod"]
 specs = {
     "plugins/benchpod/bin/benchpod-mcp": re.search(r"^SPEC='([^']+)'", (root / "plugins/benchpod/bin/benchpod-mcp").read_text(), re.M).group(1),
     "plugins/benchpod/bin/benchpod-mcp.cmd": re.search(r'^set "SPEC=([^"]+)"', (root / "plugins/benchpod/bin/benchpod-mcp.cmd").read_text(), re.M).group(1),
-    "plugins/benchpod/codex.mcp.json": codex["args"][codex["args"].index("--from") + 1],
 }
 bad_specs = {path: s for path, s in specs.items() if s != spec}
 for path, s in bad_specs.items():

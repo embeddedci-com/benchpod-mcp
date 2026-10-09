@@ -47,12 +47,32 @@ Change a setting later by running the install command again with `--config`, or 
 
 ## Codex
 
+The plugin needs the Codex CLI on your `PATH`, also when you use the Codex app (the app does not add a
+`codex` command). Install it with one of:
+
+```bash
+brew install --cask codex
+```
+
+```bash
+npm install -g @openai/codex
+```
+
+Add the marketplace from the CLI:
+
 ```bash
 codex plugin marketplace add embeddedci-com/benchpod-mcp
 ```
 
-Then open `/plugins` in Codex and install **BenchPod**. Codex passes these environment variables
-from your shell to the server, so set them before starting Codex:
+or in the Codex app: **Settings** → **Plugins** → **Add** → **Add a marketplace**, with source
+`embeddedci-com/benchpod-mcp`. Then install **BenchPod** (`/plugins` in the CLI, or the Plugins
+list in the app) and ask the agent to connect to your pod.
+
+No settings are needed. Without `BENCHPOD_CONNECTION`, tell the agent which pod to use in chat (its
+address, `usb`, or `embeddedci:<device>` for a cloud pod), or let it find the one pod on your
+network over mDNS (embeddedci-mcp after 2.9.0). Without `BENCHPOD_LA_VOLTAGE`, the agent sets the
+board's I/O voltage before using the pins. To set either as a default, export it in your shell
+before starting Codex, which passes it to the server:
 
 ```bash
 export BENCHPOD_CONNECTION=192.168.1.213 BENCHPOD_LA_VOLTAGE=3.3

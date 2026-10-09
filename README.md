@@ -12,8 +12,8 @@ USB.
 
 ## Requirements
 
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) on your `PATH` for the Codex plugin.
-  The Claude Code plugin uses yours if you have it and otherwise installs a private copy on first
+- Nothing else to install for the server: the Claude Code and Codex plugins use your
+  [uv](https://docs.astral.sh/uv/) if you have it and otherwise install a private copy on first
   start (macOS, Linux and Windows); the Claude Desktop extension brings its own.
 - A BenchPod on your network, over USB, or in the embeddedci.com cloud.
 - For flashing only: OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example
@@ -67,6 +67,12 @@ codex plugin marketplace add embeddedci-com/benchpod-mcp
 or in the Codex app: **Settings** → **Plugins** → **Add** → **Add a marketplace**, with source
 `embeddedci-com/benchpod-mcp`. Then install **BenchPod** (`/plugins` in the CLI, or the Plugins
 list in the app) and ask the agent to connect to your pod.
+
+The plugin starts the server with `bin/benchpod-mcp` (`bin/benchpod-mcp.cmd` on Windows), the same
+launcher as the Claude Code plugin, so uv is not needed. It uses your uv if you have one, also in
+`~/.local/bin`, `/opt/homebrew/bin` or `/usr/local/bin` when the app was started without those on
+its `PATH`. Otherwise it installs a private copy in `~/.local/share/benchpod-mcp`
+(`%LOCALAPPDATA%\benchpod-mcp` on Windows) on first start, which takes a minute.
 
 No settings are needed. Without `BENCHPOD_CONNECTION`, tell the agent which pod to use in chat (its
 address, `usb`, or `embeddedci:<device>` for a cloud pod), or let it find the one pod on your
@@ -157,7 +163,7 @@ Open an [issue](https://github.com/embeddedci-com/benchpod-mcp/issues) or email
 
 | Path | |
 | --- | --- |
-| `plugins/benchpod/` | The plugin: `.claude-plugin/plugin.json` (Claude Code), `.codex-plugin/plugin.json` + `codex.mcp.json` (Codex), `bin/benchpod-mcp` and `bin/benchpod-mcp.cmd` (the Claude Code launcher for macOS/Linux and Windows) |
+| `plugins/benchpod/` | The plugin: `.claude-plugin/plugin.json` (Claude Code), `.codex-plugin/plugin.json` + `codex.mcp.json` (Codex), `bin/benchpod-mcp` and `bin/benchpod-mcp.cmd` (the launcher both plugins run, for macOS/Linux and Windows) |
 | `.claude-plugin/marketplace.json` | Claude Code marketplace |
 | `.agents/plugins/marketplace.json` | Codex marketplace |
 | `mcpb/` | Claude Desktop extension, built into `benchpod.mcpb` by the release workflow |

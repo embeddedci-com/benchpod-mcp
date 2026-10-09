@@ -1,8 +1,14 @@
 #!/bin/sh
-# Starts the BenchPod MCP server with uvx. Without uv on PATH it installs a private copy into the
-# plugin's data folder first (no sudo, shell profile untouched); uv then fetches its own Python.
+# Starts the BenchPod MCP server with uvx, for Claude Code and Codex. Without uv it installs a
+# private copy into the plugin's data folder first (no sudo, shell profile untouched); uv then
+# fetches its own Python.
 # stdout is the MCP stream: everything else goes to stderr.
 SPEC='embeddedci-mcp>=2.9,<3'
+
+# An app started from the Dock or Start menu gets a minimal PATH without the folders the uv
+# installer and Homebrew use, so look there too.
+PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin"
+export PATH
 
 if command -v uvx >/dev/null 2>&1; then
   exec uvx --from "$SPEC" embeddedci-mcp

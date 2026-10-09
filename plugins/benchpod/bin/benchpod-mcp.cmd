@@ -1,12 +1,15 @@
 @echo off
 rem Windows twin of bin/benchpod-mcp, found through PATHEXT when the plugin's command
-rem ${CLAUDE_PLUGIN_ROOT}/bin/benchpod-mcp is started on Windows. Starts the BenchPod MCP server
+rem (${CLAUDE_PLUGIN_ROOT}/bin/benchpod-mcp in Claude Code, ./bin/benchpod-mcp in Codex) is started
+rem on Windows. Starts the BenchPod MCP server
 rem with uvx. Without uv on PATH it installs a private copy into the plugin's data folder first
 rem (no admin rights, PATH untouched); uv then fetches its own Python.
 rem stdout is the MCP stream: everything else goes to stderr.
 setlocal
 set "SPEC=embeddedci-mcp>=2.9,<3"
 
+rem The uv installer's folder may be missing from the PATH of an app started before uv was installed.
+set "PATH=%PATH%;%USERPROFILE%\.local\bin;%USERPROFILE%\.cargo\bin"
 where uvx >nul 2>nul
 if errorlevel 1 goto private
 uvx --from "%SPEC%" embeddedci-mcp

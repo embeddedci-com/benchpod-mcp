@@ -271,11 +271,11 @@
     },
     {
       "name": "list_waveforms",
-      "description": "The organisation's cloud waveform library (needs a cloud connection, BENCHPOD_API_KEY or `benchpod login`)."
+      "description": "The organization's cloud waveform library (needs a cloud connection, BENCHPOD_API_KEY or `benchpod login`)."
     },
     {
       "name": "cloud_list_devices",
-      "description": "The BenchPods registered to your embeddedci.com organisation, and whether each is online. Needs no pod connection."
+      "description": "The BenchPods registered to your embeddedci.com organization, and whether each is online. Needs no pod connection."
     },
     {
       "name": "replay_waveform",

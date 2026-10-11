@@ -1,0 +1,45 @@
+#!/bin/sh
+# Starts the EMI Analyzer MCP server: `emi-local mcp`, from the EMI Analyzer app installed on
+# this computer. The server is part of the app, so its tools always match the app's version;
+# it finds the running app (or starts it) and analyses boards there, nothing leaves the computer.
+# stdout is the MCP stream: everything else goes to stderr.
+
+# The first EMI Analyzer release whose emi-local has the `mcp` command. An older one would
+# start the app's server on this stream instead, so it is refused with a clear message.
+MIN_VERSION=0.4.0
+INSTALL="Install EMI Analyzer 0.4.0 or newer (it needs Docker): on macOS 'brew install --cask embeddedci-com/tap/emi-analyzer', otherwise https://github.com/embeddedci-com/emi-analyzer#readme"
+
+say() { echo "emi-analyzer: $*" >&2; }
+
+# Newer than or equal to MIN_VERSION. "dev" is a build from source, which has the command.
+recent_enough() {
+  case "$1" in
+    dev|dev-*) return 0 ;;
+  esac
+  awk -v v="$1" -v m="$MIN_VERSION" 'BEGIN {
+    n = split(v, a, "."); split(m, b, ".")
+    for (i = 1; i <= 3; i++) { x = a[i] + 0; y = b[i] + 0; if (x > y) exit 0; if (x < y) exit 1 }
+    exit 0
+  }'
+}
+
+try() {
+  [ -n "$1" ] && [ -x "$1" ] || return 1
+  version=$("$1" -version 2>/dev/null | head -n 1)
+  if recent_enough "$version"; then
+    exec "$1" mcp
+  fi
+  say "$1 is version ${version:-unknown}; the MCP server needs $MIN_VERSION or newer."
+  return 1
+}
+
+# EMI_LOCAL is the plugin's "emi_local" setting: an emi-local somewhere this script does not look.
+try "${EMI_LOCAL:-}"
+try "$(command -v emi-local 2>/dev/null)"
+try "/Applications/EMI Analyzer.app/Contents/MacOS/emi-local"
+try "$HOME/Applications/EMI Analyzer.app/Contents/MacOS/emi-local"
+try "/usr/bin/emi-local"
+try "/opt/EMI Analyzer/emi-local"
+
+say "the EMI Analyzer app was not found. $INSTALL. Installed somewhere else? Set the plugin's emi_local option to its emi-local."
+exit 1

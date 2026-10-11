@@ -18,6 +18,12 @@ jobs:
         run: |
           npx -y @anthropic-ai/claude-code plugin validate --strict .
           npx -y @anthropic-ai/claude-code plugin validate --strict plugins/benchpod
+          npx -y @anthropic-ai/claude-code plugin validate --strict plugins/emi-analyzer
+      # The EMI Analyzer plugin runs `emi-local mcp` from the installed app. Without the app it
+      # must say how to install it, and an app too old for `mcp` must be refused rather than
+      # started (it would run its web server on the MCP stream).
+      - name: Check the EMI Analyzer launcher
+        run: sh scripts/check_emi_launcher.sh
       - name: Check the Codex manifest
         run: python3 scripts/check_codex_plugin.py plugins/benchpod
       - name: Keep versions in step

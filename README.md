@@ -143,6 +143,36 @@ If the pod or embeddedci.com refuses a command, the tool error names why (for ex
 and adds a one-line hint, so the agent can tell you what to change. `status` lists the pod's
 capabilities, so the agent knows which tools that pod supports.
 
+## EMI Analyzer plugin
+
+The `emi-analyzer` plugin lets Claude Code review a PCB layout for EMI and EMC problems with
+[EMI Analyzer](https://github.com/embeddedci-com/emi-analyzer), which runs on your computer:
+return paths and plane gaps, decoupling, ESD at connectors, cable budgets, length matching, and
+what changed between two versions of a board. Boards and results stay on your computer.
+
+It needs EMI Analyzer 0.4.0 or newer, which brings the MCP server (`emi-local mcp`), and Docker
+for its analysis. On macOS:
+
+```bash
+brew install --cask embeddedci-com/tap/emi-analyzer
+```
+
+```bash
+claude plugin install emi-analyzer@benchpod-mcp
+```
+
+Then ask, for example, "review ~/boards/amp/amp.kicad_pcb for EMI problems". The plugin's
+`emi-review` skill has the agent analyze the board, check each finding against the board itself
+(what a net carries, what a pin is, whether a connector leaves the enclosure), and report the
+real problems with fixes. After a change, it compares the two versions.
+
+The plugin finds the installed app; set `emi_local` to use another `emi-local` (a build from
+source), or `app_url` to use an app you started yourself. Its tools: `status`, `analyze_board`,
+`run_status`, `list_projects`, `list_versions`, `findings`, `finding`, `decoupling`, `nets`,
+`compare`, `checks`, `open_in_app`, `run_esd`, `esd`, `run_cables`, `cables`.
+
+Results compare versions of your own board; they are not a pre-compliance test.
+
 ## Privacy Policy
 
 The MCP server runs on your computer and talks directly to your BenchPod. It has no telemetry and no
@@ -164,6 +194,8 @@ Open an [issue](https://github.com/embeddedci-com/benchpod-mcp/issues) or email
 | Path | |
 | --- | --- |
 | `plugins/benchpod/` | The plugin: `.claude-plugin/plugin.json` (Claude Code), `.codex-plugin/plugin.json` + `codex.mcp.json` (Codex), `bin/benchpod-mcp` and `bin/benchpod-mcp.cmd` (the launcher both plugins run, for macOS/Linux and Windows) |
+| `plugins/emi-analyzer/` | The EMI Analyzer plugin: `.claude-plugin/plugin.json`, `bin/emi-analyzer-mcp` and `.cmd` (run `emi-local mcp` from the installed app), `skills/emi-review/` |
+| `scripts/check_emi_launcher.sh` | Checks the EMI Analyzer launcher without the app: a missing or too old app is explained, a recent one is run |
 | `.claude-plugin/marketplace.json` | Claude Code marketplace |
 | `.agents/plugins/marketplace.json` | Codex marketplace |
 | `mcpb/` | Claude Desktop extension, built into `benchpod.mcpb` by the release workflow |

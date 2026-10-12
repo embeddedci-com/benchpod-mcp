@@ -83,7 +83,7 @@
     },
     {
       "name": "power_status",
-      "description": "Both target-power rails: eFuse on/off and tripped state, bus voltage and current draw."
+      "description": "Both target-power rails, internal 5 V (efuse 1) and external (efuse 2): on/off and tripped state, bus voltage and current draw."
     },
     {
       "name": "reset_target",

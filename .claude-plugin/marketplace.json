@@ -5,13 +5,19 @@
     "email": "hello@embeddedci.com"
   },
   "metadata": {
-    "description": "EmbeddedCI BenchPod plugins: drive a hardware-in-the-loop bench from Claude Code."
+    "description": "EmbeddedCI plugins for Claude Code: drive a BenchPod hardware-in-the-loop bench, and analyze PCB layouts for EMI with EMI Analyzer."
   },
   "plugins": [
     {
       "name": "benchpod",
       "source": "./plugins/benchpod",
       "description": "Flash, power, UART, I2C sensor emulation, logic and analog capture and CAN on a BenchPod.",
+      "category": "development"
+    },
+    {
+      "name": "emi-analyzer",
+      "source": "./plugins/emi-analyzer",
+      "description": "Analyze KiCad boards and Gerber sets for EMI and EMC problems with the EMI Analyzer app, and triage what it finds.",
       "category": "development"
     }
   ]

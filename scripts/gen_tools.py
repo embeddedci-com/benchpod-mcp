@@ -28,9 +28,9 @@ CODEX = root / "plugins/benchpod/codex.mcp.json"
 OVERRIDES = {
     "current_out": "Hold a current on the 4-20 mA output (terminal J9, needs an external floating "
                    "loop supply), in amps, or read the range it can do.",
-    "list_waveforms": "The organisation's cloud waveform library (needs a cloud connection, "
+    "list_waveforms": "The organization's cloud waveform library (needs a cloud connection, "
                       "BENCHPOD_API_KEY or `benchpod login`).",
-    "cloud_list_devices": "The BenchPods registered to your embeddedci.com organisation, and "
+    "cloud_list_devices": "The BenchPods registered to your embeddedci.com organization, and "
                           "whether each is online. Needs no pod connection.",
 }
 

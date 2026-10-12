@@ -83,7 +83,7 @@
     },
     {
       "name": "power_status",
-      "description": "Both target-power rails: eFuse on/off and tripped state, bus voltage and current draw."
+      "description": "Both target-power rails, internal 5 V (efuse 1) and external (efuse 2): on/off and tripped state, bus voltage and current draw."
     },
     {
       "name": "reset_target",
@@ -271,11 +271,11 @@
     },
     {
       "name": "list_waveforms",
-      "description": "The organisation's cloud waveform library (needs a cloud connection, BENCHPOD_API_KEY or `benchpod login`)."
+      "description": "The organization's cloud waveform library (needs a cloud connection, BENCHPOD_API_KEY or `benchpod login`)."
     },
     {
       "name": "cloud_list_devices",
-      "description": "The BenchPods registered to your embeddedci.com organisation, and whether each is online. Needs no pod connection."
+      "description": "The BenchPods registered to your embeddedci.com organization, and whether each is online. Needs no pod connection."
     },
     {
       "name": "replay_waveform",

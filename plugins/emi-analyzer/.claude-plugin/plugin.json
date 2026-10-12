@@ -1,0 +1,39 @@
+{
+  "name": "emi-analyzer",
+  "version": "0.1.0",
+  "description": "Analyze PCB layouts for EMI and EMC problems with the EMI Analyzer app on your computer: return paths, plane gaps, decoupling, ESD at connectors, cable budgets, and what changed between versions of a board.",
+  "author": {
+    "name": "EmbeddedCI",
+    "email": "hello@embeddedci.com",
+    "url": "https://www.embeddedci.com"
+  },
+  "homepage": "https://github.com/embeddedci-com/emi-analyzer#readme",
+  "repository": "https://github.com/embeddedci-com/benchpod-mcp",
+  "license": "Apache-2.0",
+  "keywords": ["pcb", "emi", "emc", "kicad", "esd", "decoupling", "signal-integrity"],
+  "userConfig": {
+    "emi_local": {
+      "type": "string",
+      "title": "emi-local path",
+      "description": "Leave empty to use the installed EMI Analyzer app. Set it to an emi-local the plugin would not find on its own, for example a build from source.",
+      "required": false,
+      "default": ""
+    },
+    "app_url": {
+      "type": "string",
+      "title": "EMI Analyzer address",
+      "description": "Leave empty to find (or start) the app on this computer. Set it to use one you started yourself, for example http://127.0.0.1:7465.",
+      "required": false,
+      "default": ""
+    }
+  },
+  "mcpServers": {
+    "emi-analyzer": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/emi-analyzer-mcp",
+      "env": {
+        "EMI_LOCAL": "${user_config.emi_local}",
+        "EMI_ANALYZER_URL": "${user_config.app_url}"
+      }
+    }
+  }
+}

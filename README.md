@@ -119,7 +119,7 @@ describe each one with its parameters and defaults.
 
 | Group | Tools |
 | --- | --- |
-| Connection | `connect`, `disconnect`, `status`, `set_la_voltage` |
+| Connection | `connect`, `disconnect`, `status`, `set_la_voltage`, `usb_network` |
 | Cloud (embeddedci.com) | `cloud_list_devices` |
 | Wiring profile | `wiring`, `set_wiring` |
 | Power | `power_on`, `power_off`, `power_status`, `reset_target` |

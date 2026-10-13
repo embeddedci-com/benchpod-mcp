@@ -3,7 +3,7 @@
 # private copy into the plugin's data folder first (no sudo, shell profile untouched); uv then
 # fetches its own Python.
 # stdout is the MCP stream: everything else goes to stderr.
-SPEC='embeddedci-mcp>=2.9,<3'
+SPEC='embeddedci-mcp>=2.12,<3'
 
 # An app started from the Dock or Start menu gets a minimal PATH without the folders the uv
 # installer and Homebrew use, so look there too.

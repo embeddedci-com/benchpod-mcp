@@ -131,7 +131,7 @@ describe each one with its parameters and defaults.
 | Emulated GPS receiver | `enable_gps`, `set_gps`, `disable_gps`, `gps_status` |
 | Pull resistors | `set_pull`, `pull_status` |
 | GPIO on the LA pins | `la_pins`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
-| Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `calibration`, `calibrate`, `calibrate_dac`, `calibrate_adc_gain` |
+| Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `adc_range`, `calibration`, `calibrate`, `calibrate_dac`, `calibrate_adc_gain` |
 | Capture and decode | `capture_adc`, `capture_la`, `capture_correlated`, `decode_la`, `la_timing` |
 | DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `replay_waveform`, `save_capture_as_recording` |
 | Control loop | `control_loop`, `loop_input`, `loop_probe`, `fpga_image` |

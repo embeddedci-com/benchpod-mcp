@@ -154,6 +154,7 @@ It needs EMI Analyzer 0.4.0 or newer, which brings the MCP server (`emi-local mc
 for its analysis. On macOS:
 
 ```bash
+brew trust embeddedci-com/tap
 brew install --cask embeddedci-com/tap/emi-analyzer
 ```
 

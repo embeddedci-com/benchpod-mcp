@@ -6,7 +6,7 @@ rem with uvx. Without uv on PATH it installs a private copy into the plugin's da
 rem (no admin rights, PATH untouched); uv then fetches its own Python.
 rem stdout is the MCP stream: everything else goes to stderr.
 setlocal
-set "SPEC=embeddedci-mcp>=2.13.5,<3"
+set "SPEC=embeddedci-mcp>=2.13.7,<3"
 
 rem The uv installer's folder may be missing from the PATH of an app started before uv was installed.
 set "PATH=%PATH%;%USERPROFILE%\.local\bin;%USERPROFILE%\.cargo\bin"

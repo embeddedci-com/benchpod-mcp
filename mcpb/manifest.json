@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "benchpod",
   "display_name": "EmbeddedCI BenchPod",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Drive a BenchPod hardware-in-the-loop bench: flash, power, UART, I2C sensor emulation, logic and analog capture, CAN.",
   "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the I2C sensor it expects, capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key, or a `benchpod login` on this computer.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
   "author": {
@@ -352,6 +352,62 @@
     {
       "name": "command",
       "description": "Escape hatch for firmware commands no tool covers. Prefer the dedicated tools."
+    },
+    {
+      "name": "vision_connect",
+      "description": "Open the AI Vision connection (closing a previous one) and report the board's status."
+    },
+    {
+      "name": "vision_cloud_boards",
+      "description": "The AI Vision boards registered to your embeddedci.com organisation, and whether each is online. Connect to one with vision_connect(connection) using its `connection` ('embeddedci:<name>'). Authenticates with BENCHPOD_API_KEY, else the `benchpod login` session."
+    },
+    {
+      "name": "vision_disconnect",
+      "description": "Close the AI Vision connection and release its lease. Safe when not connected."
+    },
+    {
+      "name": "vision_status",
+      "description": "Version, calibration, camera lock, actuators, lease and capabilities, with warnings for what will block the next steps."
+    },
+    {
+      "name": "vision_look",
+      "description": "The screen as an image, so you can read it yourself. With a region: that part at full sensor resolution (small text, icons)."
+    },
+    {
+      "name": "vision_ocr",
+      "description": "All text on the screen (or a region) in reading order, with boxes."
+    },
+    {
+      "name": "vision_find",
+      "description": "Elements matching text, a kind or a template, best first. Text inside a button returns the button (its center is where a press taps)."
+    },
+    {
+      "name": "vision_wait_for",
+      "description": "Wait until text appears (or, with gone, disappears). Returns met=false on timeout."
+    },
+    {
+      "name": "vision_compare",
+      "description": "How close the screen is to a stored reference screen."
+    },
+    {
+      "name": "vision_screen_health",
+      "description": "Black, dim, frozen, flickering or stuck pixels over a window of frames."
+    },
+    {
+      "name": "vision_calibrate",
+      "description": "Map camera pixels to screen pixels; every later box and tap is in screen pixels."
+    },
+    {
+      "name": "vision_add_reference",
+      "description": "Store the current screen (or a region of it, e.g. an icon as a template) as a reference."
+    },
+    {
+      "name": "vision_press",
+      "description": "Find the element, tap its center with the actuator, and optionally verify the result. Fails with the visible text when the element is not on the screen."
+    },
+    {
+      "name": "vision_tap",
+      "description": "Tap a point in screen pixels (hold_ms > 0 for a long press)."
     }
   ],
   "tools_generated": false,

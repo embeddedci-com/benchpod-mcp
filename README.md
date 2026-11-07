@@ -137,6 +137,7 @@ describe each one with its parameters and defaults.
 | Control loop | `control_loop`, `loop_input`, `loop_probe`, `fpga_image` |
 | CAN | `can_open`, `can_write`, `can_read`, `can_respond`, `can_status`, `can_close` |
 | Other | `la_step`, `command` |
+| AI Vision board (a camera on the device's screen; LAN or `embeddedci:<name>`) | `vision_cloud_boards`, `vision_connect`, `vision_disconnect`, `vision_status`, `vision_look`, `vision_ocr`, `vision_find`, `vision_wait_for`, `vision_compare`, `vision_screen_health`, `vision_calibrate`, `vision_add_reference`, `vision_press`, `vision_tap` |
 
 If the pod or embeddedci.com refuses a command, the tool error names why (for example
 `PodLockedError`, `PodLeasedError`, `PodBusyError`, `PermissionDeniedError` or `TransportTimeout`)

@@ -126,10 +126,11 @@ describe each one with its parameters and defaults.
 | Power profiles | `measure_power`, `power_profile_start`, `power_profile_stop` |
 | Flash | `flash` |
 | SPI flash and SPI devices | `spi_flash_info`, `spi_flash_program`, `spi_flash_read`, `spi_transfer` |
+| I2C master (the pod drives the bus) | `i2c_open`, `i2c_transfer`, `i2c_scan`, `i2c_close` |
 | UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |
 | Emulated sensors (I2C, SPI, UART and analog, from the [sensor library](https://github.com/embeddedci-com/benchpod-sensors) or your own definition; pod firmware 3.10.3+) | `sensor_library`, `sensor_show`, `sensor_format`, `sensor_validate`, `sensor_start`, `sensor_set`, `sensor_stimulus_load`, `sensor_stimulus_start`, `sensor_stimulus_stop`, `sensor_fault`, `sensor_fault_clear`, `sensor_stop`, `sensor_status`, `sensor_regs`, `sensor_capture` |
 | Pull resistors | `set_pull`, `pull_status` |
-| GPIO on the LA pins | `la_pins`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
+| GPIO on the LA pins | `la_pins`, `la_dir`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
 | Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `adc_range`, `calibration`, `calibrate`, `calibrate_dac`, `calibrate_adc_gain` |
 | Capture and decode | `capture_adc`, `capture_la`, `capture_correlated`, `decode_la`, `la_timing` |
 | DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `replay_waveform`, `save_capture_as_recording` |

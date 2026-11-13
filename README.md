@@ -127,8 +127,7 @@ describe each one with its parameters and defaults.
 | Flash | `flash` |
 | SPI flash and SPI devices | `spi_flash_info`, `spi_flash_program`, `spi_flash_read`, `spi_transfer` |
 | UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |
-| Emulated I2C sensor (BMP280, BME280, SHT4x, MPU-6050) | `enable_i2c_sensor`, `set_i2c_sensor`, `disable_i2c_sensor`, `i2c_sensor_status`, `i2c_sensor_types`, `i2c_sensor_regs`, `i2c_sensor_capture` |
-| Emulated GPS receiver | `enable_gps`, `set_gps`, `disable_gps`, `gps_status` |
+| Emulated sensors (I2C, SPI, UART and analog, from the [sensor library](https://github.com/embeddedci-com/benchpod-sensors) or your own definition; pod firmware 3.10.3+) | `sensor_library`, `sensor_show`, `sensor_format`, `sensor_validate`, `sensor_start`, `sensor_set`, `sensor_stimulus_load`, `sensor_stimulus_start`, `sensor_stimulus_stop`, `sensor_fault`, `sensor_fault_clear`, `sensor_stop`, `sensor_status`, `sensor_regs`, `sensor_capture` |
 | Pull resistors | `set_pull`, `pull_status` |
 | GPIO on the LA pins | `la_pins`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
 | Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `adc_range`, `calibration`, `calibrate`, `calibrate_dac`, `calibrate_adc_gain` |

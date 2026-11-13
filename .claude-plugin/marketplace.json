@@ -11,7 +11,7 @@
     {
       "name": "benchpod",
       "source": "./plugins/benchpod",
-      "description": "Flash, power, UART, I2C sensor emulation, logic and analog capture and CAN on a BenchPod.",
+      "description": "Flash, power, UART, sensor emulation, logic and analog capture and CAN on a BenchPod.",
       "category": "development"
     },
     {

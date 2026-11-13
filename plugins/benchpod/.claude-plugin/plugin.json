@@ -1,7 +1,7 @@
 {
   "name": "benchpod",
-  "version": "1.0.18",
-  "description": "Drive an EmbeddedCI BenchPod hardware-in-the-loop bench: flash firmware, power the board, read its UART, emulate I2C sensors, capture logic and analog signals, and talk CAN.",
+  "version": "1.0.19",
+  "description": "Drive an EmbeddedCI BenchPod hardware-in-the-loop bench: flash firmware, power the board, read its UART, emulate sensors, capture logic and analog signals, and talk CAN.",
   "author": {
     "name": "EmbeddedCI",
     "email": "hello@embeddedci.com",

@@ -14,7 +14,8 @@ USB.
 
 - Nothing else to install for the server: the Claude Code and Codex plugins use your
   [uv](https://docs.astral.sh/uv/) if you have it and otherwise install a private copy on first
-  start (macOS, Linux and Windows); the Claude Desktop extension brings its own.
+  start (macOS, Linux and Windows: a fixed uv release, checked against its SHA-256); the Claude
+  Desktop extension brings its own. Each plugin release runs one exact `embeddedci-mcp` version.
 - A BenchPod on your network, over USB, or in the embeddedci.com cloud.
 - For flashing only: OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example
   `brew install --HEAD open-ocd` or the xPack build).

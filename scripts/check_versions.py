@@ -26,5 +26,10 @@ specs = {
 bad_specs = {path: s for path, s in specs.items() if s != spec}
 for path, s in bad_specs.items():
     print(f"{path}: installs {s}, mcpb/pyproject.toml pins {spec}")
+# One exact server release per plugin release: a range would let every start pick up whatever
+# PyPI serves next.
+if not re.fullmatch(r"embeddedci-mcp==\d+\.\d+\.\d+", spec):
+    print(f"mcpb/pyproject.toml: {spec} is not an exact version (embeddedci-mcp==X.Y.Z)")
+    bad_specs["mcpb/pyproject.toml"] = spec
 
 sys.exit(1 if bad or bad_specs else 0)

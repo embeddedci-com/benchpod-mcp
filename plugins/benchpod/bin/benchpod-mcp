@@ -3,7 +3,12 @@
 # private copy into the plugin's data folder first (no sudo, shell profile untouched); uv then
 # fetches its own Python.
 # stdout is the MCP stream: everything else goes to stderr.
-SPEC='embeddedci-mcp>=2.13.16,<3'
+#
+# SPEC is one exact embeddedci-mcp release per plugin release (the release PR bumps it here, in
+# bin/benchpod-mcp.cmd and in mcpb/pyproject.toml; scripts/check_versions.py keeps them equal).
+# The private uv is one pinned uv release, checked against its SHA-256 before it is unpacked.
+SPEC='embeddedci-mcp==2.13.17'
+UV_VERSION='0.13.6'
 
 # An app started from the Dock or Start menu gets a minimal PATH without the folders the uv
 # installer and Homebrew use, so look there too.
@@ -17,23 +22,63 @@ fi
 DATA="${CLAUDE_PLUGIN_DATA:-${XDG_DATA_HOME:-$HOME/.local/share}/benchpod-mcp}"
 UV_DIR="$DATA/uv"
 
+fail() {
+  echo "benchpod: $1. Install uv yourself: https://docs.astral.sh/uv/getting-started/installation/" >&2
+  exit 1
+}
+
 if [ ! -x "$UV_DIR/uvx" ]; then
-  echo "benchpod: uv not found on PATH, installing a private copy in $UV_DIR" >&2
+  # The uv release archive for this machine and its SHA-256 (from the release's .sha256 files).
+  # Linux uses the static musl build, which runs on any distribution.
+  case "$(uname -s)/$(uname -m)" in
+    Darwin/arm64)
+      UV_TARGET=aarch64-apple-darwin
+      UV_SHA256=60fbd5c8a1ed681845eea28d9d622fcde03c51e91a43465b64a1e17db1ed3472 ;;
+    Darwin/x86_64)
+      UV_TARGET=x86_64-apple-darwin
+      UV_SHA256=63ba17fdda55ad1a230d4b37fc6017ffa10c23688c83818bd3bfdf914c652a02 ;;
+    Linux/x86_64|Linux/amd64)
+      UV_TARGET=x86_64-unknown-linux-musl
+      UV_SHA256=5d61f26b6c7213779eda90edc6971ea6b0b796bfb8d49a574c8ad69b59838548 ;;
+    Linux/aarch64|Linux/arm64)
+      UV_TARGET=aarch64-unknown-linux-musl
+      UV_SHA256=819692e404d23e5aae6bc44c0e260f1f5492fd1910ab4693b2c650f926dbe800 ;;
+    *)
+      fail "uv not found on PATH and no private copy for $(uname -s) $(uname -m)" ;;
+  esac
+  URL="https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-$UV_TARGET.tar.gz"
+
+  echo "benchpod: uv not found on PATH, installing uv $UV_VERSION in $UV_DIR" >&2
   TMP="$UV_DIR.tmp.$$"
   rm -rf "$TMP"
   mkdir -p "$TMP" || exit 1
+  ARCHIVE="$TMP/uv.tar.gz"
   if command -v curl >/dev/null 2>&1; then
-    curl -LsSf https://astral.sh/uv/install.sh | UV_UNMANAGED_INSTALL="$TMP" sh >&2
+    curl -fsSL -o "$ARCHIVE" "$URL" >&2
   elif command -v wget >/dev/null 2>&1; then
-    wget -qO- https://astral.sh/uv/install.sh | UV_UNMANAGED_INSTALL="$TMP" sh >&2
+    wget -qO "$ARCHIVE" "$URL" >&2
   fi
+  if command -v sha256sum >/dev/null 2>&1; then
+    GOT=$(sha256sum "$ARCHIVE" 2>/dev/null | cut -d' ' -f1)
+  else
+    GOT=$(shasum -a 256 "$ARCHIVE" 2>/dev/null | cut -d' ' -f1)
+  fi
+  if [ ! -s "$ARCHIVE" ]; then
+    rm -rf "$TMP"
+    fail "could not download $URL"
+  fi
+  if [ "$GOT" != "$UV_SHA256" ]; then
+    rm -rf "$TMP"
+    fail "$URL has SHA-256 ${GOT:-unknown}, expected $UV_SHA256; not installing it"
+  fi
+  tar -xzf "$ARCHIVE" -C "$TMP" --strip-components=1 >&2
+  rm -f "$ARCHIVE"
   if [ -x "$TMP/uvx" ]; then
     # Another session may have finished first; either copy works.
     mv "$TMP" "$UV_DIR" 2>/dev/null || rm -rf "$TMP"
   else
     rm -rf "$TMP"
-    echo "benchpod: could not install uv. Install it yourself: https://docs.astral.sh/uv/getting-started/installation/" >&2
-    exit 1
+    fail "could not unpack uv"
   fi
 fi
 

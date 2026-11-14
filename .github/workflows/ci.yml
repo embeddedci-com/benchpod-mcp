@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     # Pinned to ubuntu-24.04: ubuntu-latest moves to Ubuntu 26 from 2026-10-19. Unpin once 26.04 is verified.
@@ -14,11 +17,14 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
+      # Exact npm tool versions from scripts/package-lock.json (integrity-checked), never "latest".
+      - name: Install the pinned npm tools
+        run: npm ci --prefix scripts
       - name: Validate the Claude Code marketplace and plugin
         run: |
-          npx -y @anthropic-ai/claude-code plugin validate --strict .
-          npx -y @anthropic-ai/claude-code plugin validate --strict plugins/benchpod
-          npx -y @anthropic-ai/claude-code plugin validate --strict plugins/emi-analyzer
+          scripts/node_modules/.bin/claude plugin validate --strict .
+          scripts/node_modules/.bin/claude plugin validate --strict plugins/benchpod
+          scripts/node_modules/.bin/claude plugin validate --strict plugins/emi-analyzer
       # The EMI Analyzer plugin runs `emi-local mcp` from the installed app. Without the app it
       # must say how to install it, and an app too old for `mcp` must be refused rather than
       # started (it would run its web server on the MCP stream).
@@ -39,8 +45,8 @@ jobs:
       - name: Validate and pack the Claude Desktop extension
         working-directory: mcpb
         run: |
-          npx -y @anthropic-ai/mcpb@2 validate manifest.json
-          npx -y @anthropic-ai/mcpb@2 pack . ../benchpod.mcpb
+          ../scripts/node_modules/.bin/mcpb validate manifest.json
+          ../scripts/node_modules/.bin/mcpb pack . ../benchpod.mcpb
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: benchpod.mcpb
@@ -70,5 +76,5 @@ jobs:
           SMOKE_HIDE_UV: ${{ matrix.hide_uv }}
           SMOKE_CLIENT: ${{ matrix.client }}
         run: |
-          npm install --no-save --prefix scripts @modelcontextprotocol/sdk
+          npm ci --prefix scripts --ignore-scripts
           node scripts/smoke_plugin.mjs

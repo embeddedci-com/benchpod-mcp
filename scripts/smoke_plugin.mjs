@@ -7,7 +7,7 @@
 // bin/benchpod-mcp.cmd, as Codex does; elsewhere it runs the sh launcher. SMOKE_HIDE_UV=1 drops
 // every PATH entry holding uvx, so the launcher has to find uv elsewhere or install a private copy.
 //
-//   npm install --no-save --prefix scripts @modelcontextprotocol/sdk
+//   npm ci --prefix scripts --ignore-scripts
 //   node scripts/smoke_plugin.mjs
 import fs from "node:fs";
 import os from "node:os";

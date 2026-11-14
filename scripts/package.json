@@ -1,0 +1,10 @@
+{
+  "name": "benchpod-mcp-ci",
+  "private": true,
+  "description": "Exact versions of the npm tools CI and the release job run (npm ci --prefix scripts).",
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "2.1.322",
+    "@anthropic-ai/mcpb": "2.1.2",
+    "@modelcontextprotocol/sdk": "1.32.2"
+  }
+}

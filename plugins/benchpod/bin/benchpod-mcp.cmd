@@ -8,7 +8,7 @@ rem stdout is the MCP stream: everything else goes to stderr.
 rem SPEC is one exact embeddedci-mcp release per plugin release (bumped with bin/benchpod-mcp and
 rem mcpb/pyproject.toml). The private uv is one pinned uv release, checked against its SHA-256.
 setlocal
-set "SPEC=embeddedci-mcp==2.13.17"
+set "SPEC=embeddedci-mcp==2.13.18"
 set "UV_VERSION=0.13.6"
 
 rem The uv installer's folder may be missing from the PATH of an app started before uv was installed.

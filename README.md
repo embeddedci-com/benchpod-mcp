@@ -122,7 +122,7 @@ describe each one with its parameters and defaults.
 | --- | --- |
 | Connection | `connect`, `disconnect`, `status`, `set_la_voltage`, `usb_network`, `lan_tls` |
 | Cloud (embeddedci.com) | `cloud_list_devices` |
-| Wiring profile | `wiring`, `set_wiring` |
+| Wiring profile | `wiring`, `set_wiring`, `save_wiring`, `load_wiring`, `set_default_wiring`, `delete_wiring` |
 | Power | `power_on`, `power_off`, `power_status`, `reset_target` |
 | Power profiles | `measure_power`, `power_profile_start`, `power_profile_stop` |
 | Flash | `flash` |
@@ -131,7 +131,7 @@ describe each one with its parameters and defaults.
 | UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |
 | Emulated sensors (I2C, SPI, UART and analog, from the [sensor library](https://github.com/embeddedci-com/benchpod-sensors) or your own definition; pod firmware 3.10.3+) | `sensor_library`, `sensor_show`, `sensor_format`, `sensor_validate`, `sensor_start`, `sensor_set`, `sensor_stimulus_load`, `sensor_stimulus_start`, `sensor_stimulus_stop`, `sensor_fault`, `sensor_fault_clear`, `sensor_stop`, `sensor_status`, `sensor_regs`, `sensor_capture` |
 | Pull resistors | `set_pull`, `pull_status` |
-| GPIO on the LA pins | `la_pins`, `la_dir`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release` |
+| GPIO on the LA pins | `la_pins`, `la_dir`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release`, `expansion` |
 | Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `adc_range`, `calibration`, `calibrate`, `calibrate_dac`, `calibrate_adc_gain` |
 | Capture and decode | `capture_adc`, `capture_la`, `capture_correlated`, `decode_la`, `la_timing` |
 | DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `replay_waveform`, `save_capture_as_recording` |
@@ -180,7 +180,7 @@ Results compare versions of your own board; they are not a pre-compliance test.
 
 The MCP server runs on your computer and talks directly to your BenchPod. It has no telemetry and no
 usage analytics. It sends data to embeddedci.com only when you use a cloud pod, the waveform library or
-a saved wiring profile; those requests carry your API key (or your `benchpod login` session) and the commands and data of that
+a wiring profile stored on embeddedci.com (firmware before 3.10.8 keeps none on the pod); those requests carry your API key (or your `benchpod login` session) and the commands and data of that
 request.
 Your AI client sees the tool calls it makes and their results, under its own privacy policy.
 

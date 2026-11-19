@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "benchpod",
   "display_name": "EmbeddedCI BenchPod",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Drive a BenchPod hardware-in-the-loop bench: flash, power, UART, sensor emulation, logic and analog capture, CAN.",
   "long_description": "Connects Claude to an [EmbeddedCI BenchPod](https://www.embeddedci.com/docs/benchpod-mcp), a hardware-in-the-loop tester wired to your board. Claude can flash a build over SWD, power-cycle the board and wait for its boot log, type into its UART console, pretend to be the sensors it expects (from the sensor library or your own definition), capture logic and analog signals, drive voltages and talk CAN.\n\nThe server runs on your computer and talks to the pod over your network or USB. A cloud pod (`embeddedci:<device>`) needs an embeddedci.com API key, or a `benchpod login` on this computer.\n\nTools that switch power, flash firmware or drive voltages are marked destructive, so Claude asks before using them.\n\nFlashing needs OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example `brew install --HEAD open-ocd`) on this computer. Everything else works without it.",
   "author": {
@@ -227,7 +227,7 @@
     },
     {
       "name": "set_pull",
-      "description": "Engage or release the fixed bias resistors: LA1-LA6 pull UP (I2C lines), LA7/LA8 pull DOWN."
+      "description": "Pull LA channels up or down, or switch their pull resistor off. For an I2C bus pull SDA and SCL up. The resistors are 3V3-referenced, so the pod refuses to engage them with the LA bank at 1.8 V."
     },
     {
       "name": "usb_network",
@@ -239,7 +239,7 @@
     },
     {
       "name": "pull_status",
-      "description": "State, direction and value of the bias resistor on LA1-LA8."
+      "description": "Every LA channel's pull resistor: state (up, down or off), the directions it supports (empty without a resistor) and its value."
     },
     {
       "name": "la_pins",

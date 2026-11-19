@@ -120,8 +120,8 @@ describe each one with its parameters and defaults.
 
 | Group | Tools |
 | --- | --- |
-| Connection | `connect`, `disconnect`, `status`, `set_la_voltage`, `usb_network`, `lan_tls` |
-| Cloud (embeddedci.com) | `cloud_list_devices` |
+| Connection | `connect`, `disconnect`, `status`, `set_la_voltage`, `usb_network`, `log_level`, `lan_tls` |
+| Cloud (embeddedci.com) | `cloud_list_devices`, `cloud_runs_list`, `cloud_run_get`, `cloud_run_compare`, `cloud_run_trace` |
 | Wiring profile | `wiring`, `set_wiring`, `save_wiring`, `load_wiring`, `set_default_wiring`, `delete_wiring` |
 | Power | `power_on`, `power_off`, `power_status`, `reset_target` |
 | Power profiles | `measure_power`, `power_profile_start`, `power_profile_stop` |

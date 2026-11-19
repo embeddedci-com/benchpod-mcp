@@ -32,6 +32,14 @@ OVERRIDES = {
                       "BENCHPOD_API_KEY or `benchpod login`).",
     "cloud_list_devices": "The BenchPods registered to your embeddedci.com organization, and "
                           "whether each is online. Needs no pod connection.",
+    "cloud_runs_list": "The test runs uploaded to embeddedci.com (benchpod ci, pytest uploads, "
+                       "build reports), newest first, with outcome and counts. Needs no pod connection.",
+    "cloud_run_get": "One test run: outcome, health, the pod and tests it ran with, the failed cases "
+                     "and the measurements outside their limits.",
+    "cloud_run_compare": "What changed between an earlier test run and this one: newly failing and "
+                         "fixed cases, measurements, slower calls, and the inputs that differ.",
+    "cloud_run_trace": "The pod calls of a failed test case from the trace uploaded with its run: "
+                       "what was sent, how long it took, what the pod answered.",
 }
 
 

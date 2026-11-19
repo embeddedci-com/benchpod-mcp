@@ -7,7 +7,7 @@
 # SPEC is one exact embeddedci-mcp release per plugin release (the release PR bumps it here, in
 # bin/benchpod-mcp.cmd and in mcpb/pyproject.toml; scripts/check_versions.py keeps them equal).
 # The private uv is one pinned uv release, checked against its SHA-256 before it is unpacked.
-SPEC='embeddedci-mcp==3.0.3'
+SPEC='embeddedci-mcp==3.0.4'
 UV_VERSION='0.13.6'
 
 # An app started from the Dock or Start menu gets a minimal PATH without the folders the uv

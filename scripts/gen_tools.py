@@ -62,7 +62,7 @@ def flash_max_seconds(tools: list) -> float:
     """The longest timeout the flash tool accepts (its input schema's maximum)."""
     for t in tools:
         if t.name == "flash":
-            return float(t.inputSchema["properties"]["timeout"]["maximum"])
+            return float(t.inputSchema["properties"]["timeout_s"]["maximum"])
     raise SystemExit("the server has no flash tool")
 
 

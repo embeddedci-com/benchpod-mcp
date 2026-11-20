@@ -16,7 +16,9 @@ USB.
   [uv](https://docs.astral.sh/uv/) if you have it and otherwise install a private copy on first
   start (macOS, Linux and Windows: a fixed uv release, checked against its SHA-256); the Claude
   Desktop extension brings its own. Each plugin release runs one exact `embeddedci-mcp` version.
-- A BenchPod on your network, over USB, or in the embeddedci.com cloud.
+- A BenchPod on your network, over USB, or in the embeddedci.com cloud, running pod firmware 4.0.0 or
+  later. A pod on firmware 3.x is refused: update it with `benchpod flash-self`
+  or the firmware update in the web app.
 - For flashing only: OpenOCD with the `cmsis_dap_tcp` backend (newer than 0.12.0, for example
   `brew install --HEAD open-ocd` or the xPack build).
 
@@ -129,12 +131,12 @@ describe each one with its parameters and defaults.
 | SPI flash and SPI devices | `spi_flash_info`, `spi_flash_program`, `spi_flash_read`, `spi_transfer` |
 | I2C master (the pod drives the bus) | `i2c_open`, `i2c_transfer`, `i2c_scan`, `i2c_close` |
 | UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |
-| Emulated sensors (I2C, SPI, UART and analog, from the [sensor library](https://github.com/embeddedci-com/benchpod-sensors) or your own definition; pod firmware 3.10.3+) | `sensor_library`, `sensor_show`, `sensor_format`, `sensor_validate`, `sensor_start`, `sensor_set`, `sensor_stimulus_load`, `sensor_stimulus_start`, `sensor_stimulus_stop`, `sensor_fault`, `sensor_fault_clear`, `sensor_stop`, `sensor_status`, `sensor_regs`, `sensor_capture` |
+| Emulated sensors (I2C, SPI, UART and analog, from the [sensor library](https://github.com/embeddedci-com/benchpod-sensors) or your own definition) | `sensor_library`, `sensor_show`, `sensor_format`, `sensor_validate`, `sensor_start`, `sensor_set`, `sensor_stimulus_load`, `sensor_stimulus_start`, `sensor_stimulus_stop`, `sensor_fault`, `sensor_fault_clear`, `sensor_stop`, `sensor_status`, `sensor_regs`, `sensor_capture` |
 | Pull resistors | `set_pull`, `pull_status` |
 | GPIO on the LA pins | `la_pins`, `la_dir`, `gpio_mode`, `gpio_write`, `gpio_read`, `gpio_wait`, `gpio_pulse`, `gpio_release`, `expansion` |
 | Analog | `analog_path`, `dac_output`, `current_out`, `adc_read`, `adc_range`, `calibration`, `calibrate`, `calibrate_dac`, `calibrate_adc_gain` |
 | Capture and decode | `capture_adc`, `capture_la`, `capture_correlated`, `decode_la`, `la_timing` |
-| DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `replay_waveform`, `save_capture_as_recording` |
+| DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `save_capture_as_recording` |
 | Control loop | `control_loop`, `loop_input`, `loop_probe`, `fpga_image` |
 | CAN | `can_open`, `can_write`, `can_read`, `can_respond`, `can_status`, `can_close` |
 | Other | `la_step`, `command` |
@@ -180,7 +182,7 @@ Results compare versions of your own board; they are not a pre-compliance test.
 
 The MCP server runs on your computer and talks directly to your BenchPod. It has no telemetry and no
 usage analytics. It sends data to embeddedci.com only when you use a cloud pod, the waveform library or
-a wiring profile stored on embeddedci.com (firmware before 3.10.8 keeps none on the pod); those requests carry your API key (or your `benchpod login` session) and the commands and data of that
+a wiring profile stored on embeddedci.com; those requests carry your API key (or your `benchpod login` session) and the commands and data of that
 request.
 Your AI client sees the tool calls it makes and their results, under its own privacy policy.
 

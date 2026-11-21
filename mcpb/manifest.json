@@ -331,7 +331,7 @@
     },
     {
       "name": "decode_la",
-      "description": "Decode I2C (sda, scl), UART (rx, baud) or SPI (sclk + mosi/miso/cs, mode) from LA data."
+      "description": "Decode I2C (sda, scl), UART (rx, baud), SPI (sclk + mosi/miso/cs, mode), USB (dp, dm, speed), Modbus RTU (rx, baud, tx), CAN/CAN FD (can, bitrate, data_bitrate), PWM (channels), 1-Wire (onewire) or SMBus/PMBus (sda, scl, pec) from LA data."
     },
     {
       "name": "la_timing",

@@ -139,6 +139,7 @@ describe each one with its parameters and defaults.
 | DAC | `generate`, `dac_stop`, `replay`, `list_waveforms`, `save_capture_as_recording` |
 | Control loop | `control_loop`, `loop_input`, `loop_probe`, `fpga_image` |
 | CAN | `can_open`, `can_write`, `can_read`, `can_respond`, `can_status`, `can_close` |
+| USB host (the pod is the host for the board under test) | `usb_host`, `usb_flash`, `usb_check`, `usb_hid` |
 | Other | `la_step`, `command` |
 | AI Vision board (a camera on the device's screen; LAN or `embeddedci:<name>`) | `vision_cloud_boards`, `vision_connect`, `vision_disconnect`, `vision_status`, `vision_look`, `vision_ocr`, `vision_find`, `vision_wait_for`, `vision_compare`, `vision_screen_health`, `vision_calibrate`, `vision_add_reference`, `vision_press`, `vision_tap` |
 

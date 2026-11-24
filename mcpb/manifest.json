@@ -139,7 +139,7 @@
     },
     {
       "name": "flash",
-      "description": "Program the DUT over SWD or JTAG through the pod's CMSIS-DAP probe, or over its own programming pins (target avr-updi, pic, efm8, attiny-tpi, xmega; pod firmware 4.0.4 or later)."
+      "description": "Program the DUT over SWD or JTAG through the pod's CMSIS-DAP probe."
     },
     {
       "name": "capture_uart",

@@ -127,7 +127,7 @@ describe each one with its parameters and defaults.
 | Wiring profile | `wiring`, `set_wiring`, `save_wiring`, `load_wiring`, `set_default_wiring`, `delete_wiring` |
 | Power | `power_on`, `power_off`, `power_status`, `reset_target` |
 | Power profiles | `measure_power`, `power_profile_start`, `power_profile_stop` |
-| Flash | `flash` |
+| Flash and detect | `flash`, `detect` |
 | SPI flash and SPI devices | `spi_flash_info`, `spi_flash_program`, `spi_flash_read`, `spi_transfer` |
 | I2C master (the pod drives the bus) | `i2c_open`, `i2c_transfer`, `i2c_scan`, `i2c_close` |
 | UART | `capture_uart`, `power_cycle_and_capture`, `uart_open`, `uart_write`, `uart_read`, `uart_close` |

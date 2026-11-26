@@ -51,7 +51,7 @@
     },
     {
       "name": "set_la_voltage",
-      "description": "Select the LA I/O-bank voltage to match the DUT's I/O (1.8 V needs a rev3 pod, 5.0 a digital v3r4 board)."
+      "description": "Select the LA I/O-bank voltage to match the DUT's I/O (1.8 V needs a rev3 pod, 5.0 a digital v4 board)."
     },
     {
       "name": "wiring",

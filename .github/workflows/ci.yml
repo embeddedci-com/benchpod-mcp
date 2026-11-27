@@ -61,6 +61,12 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         hide_uv: ["", "1"]
         client: ["", codex]
+        # macOS runners are scarce: GitHub sometimes never assigns one ("not acquired by Runner
+        # ... capacity constraints") and the run goes red with no step run. The Codex client
+        # starts the same bin/benchpod-mcp, which Linux covers, so macOS runs the two uv cases only.
+        exclude:
+          - os: macos-latest
+            client: codex
     # matrix.os stays "ubuntu-latest" because the main ruleset requires the check named
     # "smoke (ubuntu-latest)"; the job itself runs on the pinned ubuntu-24.04 image.
     runs-on: ${{ matrix.os == 'ubuntu-latest' && 'ubuntu-24.04' || matrix.os }}

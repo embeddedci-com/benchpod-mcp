@@ -51,7 +51,7 @@
     },
     {
       "name": "set_la_voltage",
-      "description": "Select the LA I/O-bank voltage to match the DUT's I/O (1.8 V needs a rev3 pod, 5.0 a digital v4 board)."
+      "description": "Select the LA I/O-bank voltage to match the DUT's I/O (1.8 V needs a rev3 pod, 5.0 a BenchPod v4)."
     },
     {
       "name": "wiring",
@@ -79,11 +79,11 @@
     },
     {
       "name": "power_on",
-      "description": "Power the board on with its wiring profile applied first: the profile's I/O voltage is set (when the pod has none or another one), its pull resistors (pulls; at 1.8 V only on firmware newer than 3.10.12) are set, then the rail goes on, and the pod records the profile. The result names the rail, the profile and the I/O voltage. Never changes the I/O voltage under a board that is already powered."
+      "description": "Power the board on with its wiring profile applied first: the profile's I/O voltage is set (when the pod has none or another one), its pull resistors (pulls; at 1.8 V only on firmware newer than 3.10.12) are set, then the supply goes on, and the pod records the profile. The result names the supply, the profile and the I/O voltage. Never changes the I/O voltage under a board that is already powered."
     },
     {
       "name": "power_off",
-      "description": "Switch the target's power rail off. The result says which rail was used."
+      "description": "Switch the target's power supply off. The result says which supply was used."
     },
     {
       "name": "measure_power",
@@ -91,7 +91,7 @@
     },
     {
       "name": "power_profile_start",
-      "description": "Start sampling the target-power rail in the background, then run the steps you want to profile and call power_profile_stop. Replaces any profile already running."
+      "description": "Start sampling a target-power supply in the background, then run the steps you want to profile and call power_profile_stop. Replaces any profile already running. With monitor, an external INA current monitor (attached with expansion) is sampled instead (monitor in the result)."
     },
     {
       "name": "power_profile_stop",
@@ -99,7 +99,7 @@
     },
     {
       "name": "power_status",
-      "description": "Both target-power rails, internal 5 V (efuse 1) and external (efuse 2): on/off and tripped state, bus voltage and current draw."
+      "description": "The target-power supplies: 5v (the pod's 5 V, eFuse 1) and external (eFuse 2) with on/off, tripped state, bus voltage and current draw, and on BenchPod v4 also 3v3 and 1v8 (on or off, no current monitor). All in supplies, by name; internal and external are the deprecated copies of 5v and external. Also a live reading of each external INA current monitor attached with expansion or the wiring profile (monitors)."
     },
     {
       "name": "reset_target",
@@ -247,7 +247,7 @@
     },
     {
       "name": "usb_check",
-      "description": "Check the USB firmware of the board on the pod's host port, with numbers a computer cannot get. Needs pod firmware 4.0.3 or later, a LAN or cloud connection, and the board's USB power (VBUS) wired to the internal 5 V (efuse 1) target power and switched on (power_on; every test but reset). Starts host mode when it is off. The check runs in the background of the pod and this call returns when it ends: passed is the verdict, result the numbers. A board that fails is a normal result (passed false). While it runs, usb_flash and the USB serial port are refused. A refusal says why (host mode off, no board, the rail off or not powering the board)."
+      "description": "Check the USB firmware of the board on the pod's host port, with numbers a computer cannot get. Needs pod firmware 4.0.3 or later, a LAN or cloud connection, and the board's USB power (VBUS) wired to the 5v supply (eFuse 1) target power and switched on (power_on; every test but reset). Starts host mode when it is off. The check runs in the background of the pod and this call returns when it ends: passed is the verdict, result the numbers. A board that fails is a normal result (passed false). While it runs, usb_flash and the USB serial port are refused. A refusal says why (host mode off, no board, the rail off or not powering the board)."
     },
     {
       "name": "usb_hid",
